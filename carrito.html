@@ -36,66 +36,26 @@
         <main>
             <h2 class="titulo-principal">Carrito</h2>
             <div class="contenedor-carrito">
-                <p class="carrito-vacio">Tu carrito está vacío <i class="bi bi-emoji-frown"></i></p>
+                <p id="carrito-vacio" class="carrito-vacio">Tu carrito está vacío <i class="bi bi-emoji-frown"></i></p>
 
-                <div class="carrito-productos disabled">
-                    <div class="carrito-producto">
-                        <img class="carrito-producto-imagen" src="./img/abrigos/01.jpg" alt="">
-                        <div class="carrito-producto-nombre">
-                            <small>Nombre</small>
-                            <h3>Abrigo 01</h3>
-                        </div>
-                        <div class="carrito-producto-cantidad">
-                            <small>Cantidad</small>
-                            <p>1</p>
-                        </div>
-                        <div class="carrito-producto-precio">
-                            <small>Precio</small>
-                            <p>$1000</p>
-                        </div>
-                        <div class="carrito-producto-subtotal">
-                            <small>Subtotal</small>
-                            <p>$1000</p>
-                        </div>
-                        <button class="carrito-producto-eliminar"><i class="bi bi-trash-fill"></i></button>
-                    </div>
-
-                    <div class="carrito-producto">
-                        <img class="carrito-producto-imagen" src="./img/abrigos/02.jpg" alt="">
-                        <div class="carrito-producto-nombre">
-                            <small>Nombre</small>
-                            <h3>Abrigo 02</h3>
-                        </div>
-                        <div class="carrito-producto-cantidad">
-                            <small>Cantidad</small>
-                            <p>2</p>
-                        </div>
-                        <div class="carrito-producto-precio">
-                            <small>Precio</small>
-                            <p>$1000</p>
-                        </div>
-                        <div class="carrito-producto-subtotal">
-                            <small>Subtotal</small>
-                            <p>$2000</p>
-                        </div>
-                        <button class="carrito-producto-eliminar"><i class="bi bi-trash-fill"></i></button>
-                    </div>
+                <div id="carrito-productos" class="carrito-productos disabled">
+                    <!-- Esto se completa con JS-->                    
                 </div>
                 
 
-                <div class="carrito-acciones disabled">
+                <div id="carrito-acciones" class="carrito-acciones disabled">
                     <div class="carrito-acciones-izquierda">
-                        <button class="carrito-acciones-vaciar">Vaciar carrito</button>
+                        <button id="carrito-acciones-vaciar" class="carrito-acciones-vaciar">Vaciar carrito</button>
                     </div>
                     <div class="carrito-acciones-derecha">
                         <div class="carrito-acciones-total">
                             <p>Total: </p>
-                            <p id="total">$3000</p>
+                            <p id="total">$0</p>
                         </div>
-                        <button class="carrito-acciones-comprar">COMPRAR AHORA</button>
+                        <button id="carrito-acciones-comprar" class="carrito-acciones-comprar">COMPRAR AHORA</button>
                     </div>
                 </div>
-                <p class="carrito-comprado disabled">Muchas gracias por su compra <i class="bi bi-emoji-laughing"></i></p>
+                <p id="carrito-comprado" class="carrito-comprado disabled">Muchas gracias por su compra <i class="bi bi-emoji-laughing"></i></p>
 
             </div>
 

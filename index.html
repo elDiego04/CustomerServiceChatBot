@@ -18,20 +18,20 @@
             <nav>
                 <ul class="menu">
                     <li>
-                        <button class="boton-menu boton-categoria active"><i class="bi bi-hand-index-fill"></i>Todos los productos</button>
+                        <button id="todos" class="boton-menu boton-categoria active"><i class="bi bi-hand-index-fill"></i>Todos los productos</button>
                     </li>
                     <li>
-                        <button class="boton-menu boton-categoria"><i class="bi bi-hand-index"></i>Abrigos</button>
+                        <button id="abrigos" class="boton-menu boton-categoria"><i class="bi bi-hand-index"></i>Abrigos</button>
                     </li>
                     <li>
-                        <button class="boton-menu boton-categoria"><i class="bi bi-hand-index"></i>Camisetas</button>
+                        <button id="camisetas" class="boton-menu boton-categoria"><i class="bi bi-hand-index"></i>Camisetas</button>
                     </li>
                     <li>
-                        <button class="boton-menu boton-categoria"><i class="bi bi-hand-index"></i>Pantalones</button>
+                        <button id="pantalones" class="boton-menu boton-categoria"><i class="bi bi-hand-index"></i>Pantalones</button>
                     </li>
                     <li>
                         <a class="boton-menu boton-carrito" href="./carrito.html"><i class="bi bi-cart-fill"></i>
-                            Carrito <span class="numero">323</span>
+                            Carrito <span id="numero" class="numero">0</span>
                         </a>
                     </li>
                 </ul>
@@ -41,48 +41,9 @@
             </footer>
         </aside>
         <main>
-            <h2 class="titulo-principal">Todos los productos</h2>
-            <div class="contenedor-productos">
-                <div class="producto">
-                    <img src="./img/abrigos/01.jpg" alt="" class="producto-imagen">
-                    <div class="producto-detalle">
-                        <h3 class="producto-nombre">Abrigo 01</h3>
-                        <p class="producto-precio">$10000</p>
-                        <button class="producto-agregar">Agregar</button>
-                    </div>
-                </div>
-                <div class="producto">
-                    <img src="./img/abrigos/02.jpg" alt="" class="producto-imagen">
-                    <div class="producto-detalle">
-                        <h3 class="producto-nombre">Abrigo 02</h3>
-                        <p class="producto-precio">$10000</p>
-                        <button class="producto-agregar">Agregar</button>
-                    </div>
-                </div>
-                <div class="producto">
-                    <img src="./img/abrigos/03.jpg" alt="" class="producto-imagen">
-                    <div class="producto-detalle">
-                        <h3 class="producto-nombre">Abrigo 03</h3>
-                        <p class="producto-precio">$10000</p>
-                        <button class="producto-agregar">Agregar</button>
-                    </div>
-                </div>
-                <div class="producto">
-                    <img src="./img/abrigos/04.jpg" alt="" class="producto-imagen">
-                    <div class="producto-detalle">
-                        <h3 class="producto-nombre">Abrigo 04</h3>
-                        <p class="producto-precio">$10000</p>
-                        <button class="producto-agregar">Agregar</button>
-                    </div>
-                </div>
-                <div class="producto">
-                    <img src="./img/abrigos/05.jpg" alt="" class="producto-imagen">
-                    <div class="producto-detalle">
-                        <h3 class="producto-nombre">Abrigo 05</h3>
-                        <p class="producto-precio">$10000</p>
-                        <button class="producto-agregar">Agregar</button>
-                    </div>
-                </div>
+            <h2 id="titulo-principal" class="titulo-principal">Todos los productos</h2>
+            <div id="contenedor-productos" class="contenedor-productos">
+                <!-- Esto se completa con JS-->
             </div>
 
         </main>
