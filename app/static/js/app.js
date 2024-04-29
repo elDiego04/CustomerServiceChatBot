@@ -37,53 +37,49 @@ class Chatbox {
     }
 
     onSendButton(chatbox) {
-        var textField = chatbox.querySelector('input');
-        let text1 = textField.value
-        if (text1 === "") {
-            return;
-        }
+        const optionsDiv = chatbox.querySelector('#options');
+        optionsDiv.innerHTML = ''; // Limpiar opciones anteriores
+      
+        // Definir las opciones
+        const opciones = ['Opción 1', 'Opción 2', 'Opción 3'];
+      
+        // Crear un elemento div para cada opción
+        opciones.forEach(opcion => {
+          const opcionDiv = document.createElement('div');
+          opcionDiv.textContent = opcion;
+          opcionDiv.classList.add('opcion');
+          opcionDiv.addEventListener('click', () => this.handleOptionClick(opcion, chatbox));
+          optionsDiv.appendChild(opcionDiv);
+        });
+      }
 
-        let msg1 = { name: "User", message: text1 }
+      handleOptionClick(opcion, chatbox) {
+        const { sendButton } = this.args;
+        const textField = chatbox.querySelector('input');
+      
+        let msg1 = { name: "User", message: opcion };
         this.messages.push(msg1);
+      
+        // Simular el clic en el botón "Enviar" para procesar la opción seleccionada
+        sendButton.dispatchEvent(new Event('click'));
+      
+        textField.value = ''; // Limpiar el campo de entrada
+        const optionsDiv = chatbox.querySelector('#options');
+        optionsDiv.innerHTML = ''; // Limpiar las opciones
+      }
 
-        fetch('http://127.0.0.1:5000/predict', {
-            method: 'POST',
-            body: JSON.stringify({ message: text1 }),
-            mode: 'cors',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-          })
-          .then(r => r.json())
-          .then(r => {
-            let msg2 = { name: "Sam", message: r.answer };
-            this.messages.push(msg2);
-            this.updateChatText(chatbox)
-            textField.value = ''
-
-        }).catch((error) => {
-            console.error('Error:', error);
-            this.updateChatText(chatbox)
-            textField.value = ''
-          });
-    }
-
-    updateChatText(chatbox) {
+      updateChatText(chatbox) {
         var html = '';
         this.messages.slice().reverse().forEach(function(item, index) {
-            if (item.name === "Sam")
-            {
-                html += '<div class="messages__item messages__item--visitor">' + item.message + '</div>'
-            }
-            else
-            {
-                html += '<div class="messages__item messages__item--operator">' + item.message + '</div>'
-            }
-          });
-
-        const chatmessage = chatbox.querySelector('.chatbox__messages');
+          if (item.name === "Sam") {
+            html += '<div class="messages__item messages__item--visitor">' + item.message + '</div>';
+          } else {
+            html += '<div class="messages__item messages__item--operator">' + item.message + '</div>';
+          }
+        });
+        const chatmessage = chatbox.querySelector('.chatbox__messages > div:first-child');
         chatmessage.innerHTML = html;
-    }
+      }
 }
 
 
