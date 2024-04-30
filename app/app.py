@@ -15,7 +15,7 @@ def index():
             prediction = model.predict([data])[0]
 
             # Mapear el número de clase a la etiqueta correspondiente
-            target_names = ['Age', 'Size', 'Weather', 'Time', 'Sex_Gender', 'Event', 'Satisfaction']
+            target_names = ['Age', 'Size', 'Weather', 'Sex_Gender', 'Event', 'Satisfaction']
             predicted_class = target_names[prediction]
 
             return jsonify({'prediction': predicted_class})
