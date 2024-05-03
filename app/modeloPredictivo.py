@@ -3,7 +3,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 from sklearn.ensemble import RandomForestClassifier
 import numpy as np
-import pytest
+import joblib
 
 df = pd.read_csv("SakuraStylishDB.csv", delimiter=";")
 print(df)
@@ -77,3 +77,5 @@ new_data_encoded = np.hstack((new_data_encoded.toarray(), new_data.drop(['Age', 
 new_data_scaled = scaler.transform(new_data_encoded)
 prediction = sakuraModel.predict(new_data_scaled)
 print("Predicción:", prediction)
+
+joblib.dump(sakuraModel, 'modeloPredictivo.pkl')

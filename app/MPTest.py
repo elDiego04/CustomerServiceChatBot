@@ -41,3 +41,13 @@ new_data_encoded = np.hstack((new_data_encoded.toarray(), new_data.drop(['Age', 
 new_data_scaled = scaler.transform(new_data_encoded)
 prediction = sakuraModel.predict(new_data_scaled)
 print("Predicción:", prediction)
+
+
+import pickle
+
+# Abre el archivo .pkl en modo lectura binaria
+with open('modeloPredictivo.pkl', 'rb') as f:
+    datos = pickle.load(f)
+
+# Ahora puedes usar los datos como desees
+print("",datos)
