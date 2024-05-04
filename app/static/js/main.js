@@ -1,189 +1,7 @@
-// PRODUCTOS
-const productos = [
-    // Abrigos
-    {
-        id: "abrigo-01",
-        nombre: "Abrigo 01",
-        imagen: "/static/img/abrigos/01.jpg",
-        categoria: {
-            nombre: "Abrigos",
-            id: "abrigos"
-        },
-        precio: 1000
-    },
-    {
-        id: "abrigo-02",
-        nombre: "Abrigo 02",
-        imagen: "/static/img/abrigos/02.jpg",
-        categoria: {
-            nombre: "Abrigos",
-            id: "abrigos"
-        },
-        precio: 1000
-    },
-    {
-        id: "abrigo-03",
-        nombre: "Abrigo 03",
-        imagen: "/static/img/abrigos/03.jpg",
-        categoria: {
-            nombre: "Abrigos",
-            id: "abrigos"
-        },
-        precio: 1000
-    },
-    {
-        id: "abrigo-04",
-        nombre: "Abrigo 04",
-        imagen: "/static/img/abrigos/04.jpg",
-        categoria: {
-            nombre: "Abrigos",
-            id: "abrigos"
-        },
-        precio: 1000
-    },
-    {
-        id: "abrigo-05",
-        nombre: "Abrigo 05",
-        imagen: "/static/img/abrigos/05.jpg",
-        categoria: {
-            nombre: "Abrigos",
-            id: "abrigos"
-        },
-        precio: 1000
-    },
-    // Camisetas
-    {
-        id: "camiseta-01",
-        nombre: "Camiseta 01",
-        imagen: "/static/img/camisetas/01.jpg",
-        categoria: {
-            nombre: "Camisetas",
-            id: "camisetas"
-        },
-        precio: 1000
-    },
-    {
-        id: "camiseta-02",
-        nombre: "Camiseta 02",
-        imagen: "/static/img/camisetas/02.jpg",
-        categoria: {
-            nombre: "Camisetas",
-            id: "camisetas"
-        },
-        precio: 1000
-    },
-    {
-        id: "camiseta-03",
-        nombre: "Camiseta 03",
-        imagen: "/static/img/camisetas/03.jpg",
-        categoria: {
-            nombre: "Camisetas",
-            id: "camisetas"
-        },
-        precio: 1000
-    },
-    {
-        id: "camiseta-04",
-        nombre: "Camiseta 04",
-        imagen: "/static/img/camisetas/04.jpg",
-        categoria: {
-            nombre: "Camisetas",
-            id: "camisetas"
-        },
-        precio: 1000
-    },
-    {
-        id: "camiseta-05",
-        nombre: "Camiseta 05",
-        imagen: "/static/img/camisetas/05.jpg",
-        categoria: {
-            nombre: "Camisetas",
-            id: "camisetas"
-        },
-        precio: 1000
-    },
-    {
-        id: "camiseta-06",
-        nombre: "Camiseta 06",
-        imagen: "/static/img/camisetas/06.jpg",
-        categoria: {
-            nombre: "Camisetas",
-            id: "camisetas"
-        },
-        precio: 1000
-    },
-    {
-        id: "camiseta-07",
-        nombre: "Camiseta 07",
-        imagen: "/static/img/camisetas/07.jpg",
-        categoria: {
-            nombre: "Camisetas",
-            id: "camisetas"
-        },
-        precio: 1000
-    },
-    {
-        id: "camiseta-08",
-        nombre: "Camiseta 08",
-        imagen: "/static/img/camisetas/08.jpg",
-        categoria: {
-            nombre: "Camisetas",
-            id: "camisetas"
-        },
-        precio: 1000
-    },
-    // Pantalones
-    {
-        id: "pantalon-01",
-        nombre: "Pantalón 01",
-        imagen: "/static/img/pantalones/01.jpg",
-        categoria: {
-            nombre: "Pantalones",
-            id: "pantalones"
-        },
-        precio: 1000
-    },
-    {
-        id: "pantalon-02",
-        nombre: "Pantalón 02",
-        imagen: "/static/img/pantalones/02.jpg",
-        categoria: {
-            nombre: "Pantalones",
-            id: "pantalones"
-        },
-        precio: 1000
-    },
-    {
-        id: "pantalon-03",
-        nombre: "Pantalón 03",
-        imagen: "/static/img/pantalones/03.jpg",
-        categoria: {
-            nombre: "Pantalones",
-            id: "pantalones"
-        },
-        precio: 1000
-    },
-    {
-        id: "pantalon-04",
-        nombre: "Pantalón 04",
-        imagen: "/static/img/pantalones/04.jpg",
-        categoria: {
-            nombre: "Pantalones",
-            id: "pantalones"
-        },
-        precio: 1000
-    },
-    {
-        id: "pantalon-05",
-        nombre: "Pantalón 05",
-        imagen: "/static/img/pantalones/05.jpg",
-        categoria: {
-            nombre: "Pantalones",
-            id: "pantalones"
-        },
-        precio: 1000
-    }
-];
+import { productos } from './productos.js';
+
+const instanciaProductos = new productos();
+const productosElegidos = instanciaProductos.productos.productos;
 
 const contenedorProductos = document.querySelector("#contenedor-productos");
 const botonesCategorias = document.querySelectorAll(".boton-categoria");
@@ -191,13 +9,13 @@ const tituloPrincipal = document.querySelector("#titulo-principal");
 let botonesAgregar = document.querySelectorAll(".producto-agregar");
 const numero = document.querySelector("#numero");
 
-
 function cargarProductos(productosElegidos) {
+    console.log("Tipo de productosElegidos:", typeof productosElegidos);
+    console.log("Valor de productosElegidos:", productosElegidos);
 
     contenedorProductos.innerHTML = "";
 
     productosElegidos.forEach(producto => {
-
         const div = document.createElement("div")
         div.classList.add("producto");
         div.innerHTML = `
@@ -208,15 +26,14 @@ function cargarProductos(productosElegidos) {
                 <button class="producto-agregar" id="${producto.id}">Agregar</button>
             </div>
         `;
-
         contenedorProductos.append(div);
-    })
+    });
 
     actualizarBotonesAgregar();
-
 }
 
-cargarProductos(productos);
+cargarProductos(productosElegidos);
+
 
 
 botonesCategorias.forEach(boton => {
