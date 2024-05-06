@@ -13,7 +13,7 @@ class Chatbox {
         "Cual es el clima? (Calido, Templado, Frio)",
         "Cual es su genero? (Masculino, Femenino)",
         "Cual es el tipo de evento? (Matrimonio, Bautizo, Despedida de soltero, Fiesta de quinces, Graduacion, Funeral)"
-    ];    
+      ];    
       this.currentQuestionIndex = 0;
       this.answers = {};
   }
@@ -72,57 +72,58 @@ class Chatbox {
         })
         .catch(error => console.error('Error:', error));
     }
-}
-
-askNextQuestion(chatbox) {
-  if (this.currentQuestionIndex < this.questions.length) {
-      const nextQuestion = this.questions[this.currentQuestionIndex];
-      this.addMessageToChat("Bot", nextQuestion);
-      this.currentQuestionIndex++;
-  } else {
-      // Si se han hecho todas las preguntas, enviar las respuestas al servidor Flask para obtener la predicción
-      fetch('/predict', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ data: this.answers })
-      })
-      .then(response => response.json())
-      .then(data => {
-          // Mostrar la predicción en el chat
-          this.addMessageToChat("Bot", "¡Basado en tus respuestas, te recomiendo usar: " + data.prediction);
-          // Finalizar la conversación
-          this.addMessageToChat("Bot", "¡Espero que disfrutes tu elección! ¡Adiós!");
-          this.toggleState(chatbox); // Cerrar el chat
-      })
-      .catch(error => console.error('Error:', error));
   }
-}
 
-saveAnswer(answer) {
-  // Guardar la respuesta del usuario en el objeto de respuestas
-  this.answers[this.currentQuestionIndex - 1] = answer;
-}
+  askNextQuestion(chatbox) {
+    if (this.currentQuestionIndex < this.questions.length) {
+        const nextQuestion = this.questions[this.currentQuestionIndex];
+        this.addMessageToChat("Bot", nextQuestion);
+        this.currentQuestionIndex++;
+    } else {
+        // Si se han hecho todas las preguntas, enviar las respuestas al servidor Flask para obtener la predicción
+        fetch('/predict', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ data: this.answers })
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Mostrar la predicción en el chat
+            this.addMessageToChat("Bot", "¡Basado en tus respuestas, te recomiendo usar: " + data.prediction);
+            // Finalizar la conversación
+            this.addMessageToChat("Bot", "¡Espero que disfrutes tu elección! ¡Adiós!");
+            this.toggleState(chatbox); // Cerrar el chat
+        })
+        .catch(error => console.error('Error:', error));
+    }
+  }
 
-addMessageToChat(name, message) {
-  this.messages.push({ name, message });
-  this.updateChatText();
-}
+  saveAnswer(answer) {
+    // Guardar la respuesta del usuario en el objeto de respuestas
+    this.answers[this.currentQuestionIndex - 1] = answer;
+  }
 
-updateChatText() {
-  const chatbox = this.args.chatBox;
-  let html = '';
-  this.messages.forEach(item => {
-      if (item.name === "User") {
-          html += '<div class="messages__item messages__item--visitor">' + item.message + '</div>';
-      } else {
-          html += '<div class="messages__item messages__item--operator">' + item.message + '</div>';
-      }
-  });
-  const chatmessage = chatbox.querySelector('.chatbox__messages');
-  chatmessage.innerHTML = html;
-}
+  addMessageToChat(name, message) {
+    this.messages.push({ name, message });
+    this.updateChatText();
+  }
+
+  updateChatText() {
+    const chatbox = this.args.chatBox;
+    let html = '';
+    for (let i = this.messages.length - 1; i >= 0; i--) {
+        const item = this.messages[i];
+        if (item.name === "User") {
+            html += '<div class="messages__item messages__item--visitor">' + item.message + '</div>';
+        } else {
+            html += '<div class="messages__item messages__item--operator">' + item.message + '</div>';
+        }
+    }
+    const chatmessage = chatbox.querySelector('.chatbox__messages');
+    chatmessage.innerHTML = html;
+  }
 }
 
 const chatbox = new Chatbox();

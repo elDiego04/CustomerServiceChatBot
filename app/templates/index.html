@@ -23,13 +23,22 @@
                         <button id="todos" class="boton-menu boton-categoria active"><i class="bi bi-hand-index-fill"></i>Todos los productos</button>
                     </li>
                     <li>
-                        <button id="abrigos" class="boton-menu boton-categoria"><i class="bi bi-hand-index"></i>Abrigos</button>
+                        <button id="matrimonio" class="boton-menu boton-categoria"><i class="bi bi-hand-index"></i>Matrimonio</button>
                     </li>
                     <li>
-                        <button id="camisetas" class="boton-menu boton-categoria"><i class="bi bi-hand-index"></i>Camisetas</button>
+                        <button id="bautizo" class="boton-menu boton-categoria"><i class="bi bi-hand-index"></i>Bautizo</button>
                     </li>
                     <li>
-                        <button id="pantalones" class="boton-menu boton-categoria"><i class="bi bi-hand-index"></i>Pantalones</button>
+                        <button id="despedidadesoltero" class="boton-menu boton-categoria"><i class="bi bi-hand-index"></i>Despedida de soltero</button>
+                    </li>
+                    <li>
+                        <button id="fiestaquince" class="boton-menu boton-categoria"><i class="bi bi-hand-index"></i>15's </button>
+                    </li>
+                    <li>
+                        <button id="grados" class="boton-menu boton-categoria"><i class="bi bi-hand-index"></i>Grados</button>
+                    </li>
+                    <li>
+                        <button id="funeral" class="boton-menu boton-categoria"><i class="bi bi-hand-index"></i>Funeral</button>
                     </li>
                     <li>
                         <a class="boton-menu boton-carrito" href="{{ url_for('carrito') }}"><i class="bi bi-cart-fill"></i>
@@ -78,8 +87,7 @@
         </main>
     </div>
     
-
-    <script type="module" src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 </body>
 </html>

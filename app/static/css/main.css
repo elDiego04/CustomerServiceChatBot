@@ -125,9 +125,12 @@ main {
 }
 
 .producto-imagen {
-    max-width: 100%;
+    max-width: 100%; /* Ajusta este valor según el tamaño deseado */
+    max-height: 200px; /* Ajusta este valor según el tamaño deseado */
     border-radius: 1rem;
-}
+    display: block; /* Agregado para tratarlas como elementos de bloque */
+    margin: 0 auto; 
+  }
 
 .producto-detalle {
     background-color: var(--clr-main);

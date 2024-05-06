@@ -1,17 +1,24 @@
-import { productos } from './productos.js';
+let productos = [];
 
-const instanciaProductos = new productos();
-const productosElegidos = instanciaProductos.productos.productos;
+fetch("./static/js/productos.json")
+    .then(response => response.json())
+    .then(data => {
+        productos = data;
+        cargarProductos(productos);
+        console.log(productos); // Aquí puedes verificar los productos cargados
+    })
+    .catch(error => {
+        console.error('Error al cargar los productos:', error);
+    });
 
 const contenedorProductos = document.querySelector("#contenedor-productos");
 const botonesCategorias = document.querySelectorAll(".boton-categoria");
+console.log(botonesCategorias);
 const tituloPrincipal = document.querySelector("#titulo-principal");
 let botonesAgregar = document.querySelectorAll(".producto-agregar");
 const numero = document.querySelector("#numero");
 
 function cargarProductos(productosElegidos) {
-    console.log("Tipo de productosElegidos:", typeof productosElegidos);
-    console.log("Valor de productosElegidos:", productosElegidos);
 
     contenedorProductos.innerHTML = "";
 
@@ -28,35 +35,37 @@ function cargarProductos(productosElegidos) {
         `;
         contenedorProductos.append(div);
     });
+    console.log(productosElegidos);
 
     actualizarBotonesAgregar();
 }
 
-cargarProductos(productosElegidos);
-
-
 
 botonesCategorias.forEach(boton => {
-
     boton.addEventListener("click", (e) => {
 
         botonesCategorias.forEach(boton => boton.classList.remove("active"));
         e.currentTarget.classList.add("active");
-
-        if(e.currentTarget.id != "todos"){
+        
+        if (e.currentTarget.id != "todos") {
             const productosCategoria = productos.find(producto => producto.categoria.id === e.currentTarget.id);
-            tituloPrincipal.innerHTML = productosCategoria.categoria.nombre;
-            const productosBoton = productos.filter(producto => producto.categoria.id === e.currentTarget.id);
-            cargarProductos(productosBoton);
-        } else{
-            tituloPrincipal.innerHTML = "Todos los productos";
+            if (productosCategoria) {
+                console.log(productosCategoria);
+                tituloPrincipal.innerHTML = productosCategoria.categoria.nombre;
+                const productosBoton = productos.filter(producto => producto.categoria.id === e.currentTarget.id);
+                cargarProductos(productosBoton);
+            } else {
+                console.error('No products found for the category:', e.currentTarget.id);
+                // Handle the case where no products are found
+            }
+        } else {
+            tituloPrincipal.innerText = "Todos los productos";
             cargarProductos(productos);
         }
-        
 
     })
+});
 
-})
 
 function actualizarBotonesAgregar(){
 
