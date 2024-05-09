@@ -54,23 +54,41 @@ class Chatbox {
         // Agregar el mensaje del usuario al chat
         this.addMessageToChat("User", userMessage);
         textField.value = "";
-        
-        // Enviar mensaje del usuario al servidor Flask
-        fetch('/predict', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ data: userMessage })
-        })
-        .then(response => response.json())
-        .then(data => {
-            // Mostrar la respuesta del bot en el chat
-            this.addMessageToChat("Bot", data.prediction);
-            // Hacer la siguiente pregunta o finalizar la conversación
+
+        // Si es la primera pregunta, no enviarla al servidor, solo guardar la respuesta
+        if (this.currentQuestionIndex === 0) {
+            this.saveAnswer(userMessage);
             this.askNextQuestion(chatbox);
-        })
-        .catch(error => console.error('Error:', error));
+        } else {
+            // Construir el objeto con las respuestas del usuario
+            const userData = {
+              Age: this.answers['Cual es su edad?'],
+              Weather: this.answers['Cual es el clima? (Calido, Templado, Frio)'],
+              Sex_gender: this.answers['Cual es su genero? (Masculino, Femenino)'] === 'masculino' ? 'M' : 'F',
+              Event: this.answers['Cual es el tipo de evento? (Matrimonio, Bautizo, Despedida de soltero, Fiesta de quinces, Graduacion, Funeral)']
+          };
+
+            console.log('Datos enviados al servidor:', userData); // Agrega este registro
+
+            // Enviar mensaje del usuario al servidor Flask
+            fetch('/predict', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ data: userData })
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Mostrar la respuesta del bot en el chat
+                this.addMessageToChat("Bot", data.prediction);
+                // Guardar la respuesta del usuario
+                this.saveAnswer(userMessage);
+                // Hacer la siguiente pregunta
+                this.askNextQuestion(chatbox);
+            })
+            .catch(error => console.error('Error:', error));
+        }
     }
   }
 
@@ -80,50 +98,36 @@ class Chatbox {
         this.addMessageToChat("Bot", nextQuestion);
         this.currentQuestionIndex++;
     } else {
-        // Si se han hecho todas las preguntas, enviar las respuestas al servidor Flask para obtener la predicción
-        fetch('/predict', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ data: this.answers })
-        })
-        .then(response => response.json())
-        .then(data => {
-            // Mostrar la predicción en el chat
-            this.addMessageToChat("Bot", "¡Basado en tus respuestas, te recomiendo usar: " + data.prediction);
-            // Finalizar la conversación
-            this.addMessageToChat("Bot", "¡Espero que disfrutes tu elección! ¡Adiós!");
-            this.toggleState(chatbox); // Cerrar el chat
-        })
-        .catch(error => console.error('Error:', error));
+        // Finalizar la conversación
+        this.addMessageToChat("Bot", "¡Espero que disfrutes tu elección! ¡Adiós!");
+        this.toggleState(chatbox); // Cerrar el chat
     }
-  }
+}
 
-  saveAnswer(answer) {
-    // Guardar la respuesta del usuario en el objeto de respuestas
-    this.answers[this.currentQuestionIndex - 1] = answer;
-  }
+saveAnswer(answer) {
+  const question = this.questions[this.currentQuestionIndex - 1];
+  this.answers[question] = answer.toLowerCase(); // Convertir la respuesta a minúsculas
+}
 
   addMessageToChat(name, message) {
     this.messages.push({ name, message });
     this.updateChatText();
-  }
+ }
 
-  updateChatText() {
-    const chatbox = this.args.chatBox;
-    let html = '';
-    for (let i = this.messages.length - 1; i >= 0; i--) {
-        const item = this.messages[i];
-        if (item.name === "User") {
-            html += '<div class="messages__item messages__item--visitor">' + item.message + '</div>';
-        } else {
-            html += '<div class="messages__item messages__item--operator">' + item.message + '</div>';
-        }
-    }
-    const chatmessage = chatbox.querySelector('.chatbox__messages');
-    chatmessage.innerHTML = html;
-  }
+ updateChatText() {
+   const chatbox = this.args.chatBox;
+   let html = '';
+   for (let i = this.messages.length - 1; i >= 0; i--) {
+       const item = this.messages[i];
+       if (item.name === "User") {
+           html += '<div class="messages__item messages__item--visitor">' + item.message + '</div>';
+       } else {
+           html += '<div class="messages__item messages__item--operator">' + item.message + '</div>';
+       }
+   }
+   const chatmessage = chatbox.querySelector('.chatbox__messages');
+   chatmessage.innerHTML = html;
+ }
 }
 
 const chatbox = new Chatbox();
