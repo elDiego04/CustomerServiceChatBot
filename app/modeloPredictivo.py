@@ -37,7 +37,7 @@ X_train_scaled = scaler.fit_transform(X_train_encoded)
 X_test_scaled = scaler.transform(X_test_encoded)
 
 # Paso 5: Entrenamiento del modelo
-sakuraModel = RandomForestClassifier(n_estimators=100, max_depth=10, random_state=99)
+sakuraModel = RandomForestClassifier(n_estimators=100, random_state=99)
 sakuraModel.fit(X_train_scaled, y_train)
 
 # Paso 6: Realización de una predicción con nuevos datos

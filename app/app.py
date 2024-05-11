@@ -13,7 +13,7 @@ model = joblib.load('modeloPredictivo.pkl')
 def predict():
     try:
         # Obtener las respuestas del usuario desde la solicitud
-        data = request.json['data']
+        data = request.json
         print("Datos recibidos:", data)
 
         # Convertir las respuestas en un formato adecuado para el modelo
@@ -33,37 +33,43 @@ def predict():
             print("Predicción:", prediction)
             return jsonify({'prediction': prediction})
         else:
-            print("Error: Las formas de los datos no coinciden")
-            return jsonify({'error': 'Las formas de los datos no coinciden'}), 400
+            error_message = "Las formas de los datos no coinciden"
+            print("Error:", error_message)
+            return jsonify({'error': error_message}), 400
+
+    except ValueError as e:
+        # Manejar errores de validación de datos
+        print("Error de validación de datos:", str(e))
+        return jsonify({'error': str(e)}), 400
 
     except Exception as e:
-        # Manejar cualquier error que ocurra durante la predicción
+        # Manejar cualquier otro error que ocurra durante la predicción
         print("Error durante la predicción:", e)
         return jsonify({'error': str(e)}), 400
 
-def prepara_datos_para_modelo(data):
-    # Crear un DataFrame con las respuestas del usuario
-    new_data = pd.DataFrame([data])
-
-    # Asegurarse de que las columnas necesarias estén presentes
-    required_columns = ['Age', 'Weather', 'Sex_gender', 'Event']
-    missing_columns = [col for col in required_columns if col not in new_data.columns]
-    if missing_columns:
-        raise ValueError(f"Faltan las siguientes columnas en los datos recibidos: {', '.join(missing_columns)}")
+def prepara_datos_para_modelo(data, encoder, scaler):
+    # Verificar que no haya valores vacíos
+    if any(value == '' for value in data.values()):
+        raise ValueError("No se permiten valores vacíos en los datos")
 
     # Convertir la columna 'Sex' a valores numéricos
-    new_data['Sex_gender'] = new_data['Sex_gender'].map({'f': 0, 'm': 1})
+    sex_gender = data['Sex_gender'].upper()  # Convertir a mayusculas
+    sex_mapping = {'F': 0, 'M': 1}
+    if sex_gender not in sex_mapping:
+        raise ValueError("Valor de género no válido. Debe ser 'f' o 'm'.")
+    sex_numeric = sex_mapping[sex_gender]
 
     # Codificar las columnas categóricas utilizando el mismo encoder
-    new_data_encoded = encoder.transform(new_data[['Age', 'Weather', 'Event']])
+    new_data_encoded = encoder.transform([[data['Age'], data['Weather'], data['Event']]])
 
     # Concatenar las variables codificadas con las características originales
-    X_new = np.hstack((new_data_encoded.toarray(), new_data[['Sex_gender']].values))
+    X_new = np.hstack((new_data_encoded.toarray(), [[sex_numeric]]))
 
     # Normalizar el nuevo vector de datos utilizando el mismo escalador
-    new_data_scaled = scaler.transform(X_new)
+    X_new_scaled = scaler.transform(X_new)
 
-    return new_data_scaled
+    return X_new_scaled
+
 @app.route('/')
 def index():
     # Renderizar la página de inicio
