@@ -47,7 +47,7 @@ def predict():
         print("Error durante la predicción:", e)
         return jsonify({'error': str(e)}), 400
 
-def prepara_datos_para_modelo(data, encoder, scaler):
+def prepara_datos_para_modelo(data):
     # Verificar que no haya valores vacíos
     if any(value == '' for value in data.values()):
         raise ValueError("No se permiten valores vacíos en los datos")
