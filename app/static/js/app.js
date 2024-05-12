@@ -1,4 +1,5 @@
 class Chatbox {
+
     constructor() {
         this.args = {
             openButton: document.querySelector('.chatbox__button'),
@@ -16,6 +17,10 @@ class Chatbox {
         ];
         this.currentQuestionIndex = 0;
         this.answers = {};
+        this.userData = {};
+    }
+    capitalizeFirstLetter(str) {
+        return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
     }
 
     display() {
@@ -51,24 +56,41 @@ class Chatbox {
         const userMessage = textField.value.trim();
     
         if (userMessage !== '') {
+            console.log( 'antes', this.currentQuestionIndex);
+            console.log(userMessage);
             // Agregar el mensaje del usuario al chat
             this.addMessageToChat("User", userMessage);
             textField.value = "";
     
             // Si es la primera pregunta, no enviarla al servidor, solo guardar la respuesta
-            if (this.currentQuestionIndex === 0) {
+            // if (this.currentQuestionIndex === 0) {
+                
                 this.saveAnswer(userMessage);
-                this.askNextQuestion(chatbox);
-            } else {
-                // Construir el objeto con las respuestas del usuario
-                const userData = {
-                    Age: this.answers['Cual es su edad?'] || 'Adult',
-                    Weather: this.answers['Cual es el clima? (Warm, Temperate, Cold)'] || 'Cold',
-                    Sex_gender: this.answers['Cual es su genero? (Masculine, Femenine)'] === 'Femenine' ? 'F' : 'M',
-                    Event: this.answers['Cual es el tipo de evento? (Marriage, Baptism, Stag-party, Quinceanera_party, Graduation, Funeral)'] || 'Marriage'
-                };
+                if (this.currentQuestionIndex == 1){
+                    this.userData.Age = this.capitalizeFirstLetter(userMessage);
+                }
+                if (this.currentQuestionIndex == 2){
+                    this.userData.Weather = this.capitalizeFirstLetter(userMessage);
+                }
+                if (this.currentQuestionIndex == 3){
+                    this.userData.Sex_gender = this.capitalizeFirstLetter(userMessage) == 'Masculine' ? 'M' : 'F';
+                }
     
-                console.log('Datos enviados al servidor:', userData);
+
+                this.askNextQuestion(chatbox);
+                console.log('despues', this.currentQuestionIndex)
+            // }
+            
+            if (this.currentQuestionIndex - 1 == 4){
+                console.log(this.currentQuestionIndex);
+                this.saveAnswer(userMessage);
+                // Construir el objeto con las respuestas del usuario
+                if (this.currentQuestionIndex - 1 == 4){
+                    this.userData.Event = this.capitalizeFirstLetter(userMessage);
+                }
+
+    
+                console.log('Datos enviados al servidor:', this.userData);
                 
                 // Enviar mensaje del usuario al servidor Flask
                 fetch('/predict', {
@@ -76,28 +98,36 @@ class Chatbox {
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify(userData)
+                    body: JSON.stringify(this.userData)
                 })
                     .then(response => {
                         // Verificar el estado de la respuesta
                         if (!response.ok) {
                             throw new Error('Ocurrió un error al enviar los datos al servidor.');
                         }
+                        this.userData = {};
+                        this.currentQuestionIndex = 0;
                         // Si la respuesta es exitosa, devolver los datos en formato JSON
                         return response.json();
                     })
                     .then(data => {
                         // Mostrar la respuesta del bot en el chat
                         this.addMessageToChat("Bot", data.prediction);
+                        console.log(data.prediction);
                         // Guardar la respuesta del usuario
                         this.saveAnswer(userMessage);
                         // Hacer la siguiente pregunta
-                        this.askNextQuestion(chatbox);
+                        //this.askNextQuestion(chatbox);
+
+                        this.userData = {};
+                        this.currentQuestionIndex = 0;
                     })
                     .catch(error => {
                         console.error('Error:', error.message);
                         // Mostrar un mensaje de error en el chat
                         this.addMessageToChat("Bot", "Lo siento, ocurrió un error. Por favor, inténtalo de nuevo.");
+                        this.userData = {};
+                        this.currentQuestionIndex = 0;
                     });
             }
         }
@@ -111,7 +141,8 @@ class Chatbox {
         } else {
             // Finalizar la conversación
             this.addMessageToChat("Bot", "¡Espero que disfrutes tu elección! ¡Adiós!");
-            this.toggleState(chatbox); // Cerrar el chat
+            this.currentQuestionIndex++;
+            // this.toggleState(chatbox); // Cerrar el chat
         }
     }
 
@@ -122,34 +153,32 @@ class Chatbox {
         switch(question) {
             case "Cual es su edad? (Adult, Elderly, Teenager)":
                 const validAges = ['Adult', 'Elderly', 'Teenager'];
-                if (!validAges.includes(answer.trim().toUpperCase())) {
+                let age = this.capitalizeFirstLetter(answer.trim());
+                if (!validAges.includes(age)) {
                     console.error('Error: Valor de edad no válido');
                     return;
                 }
                 break;
             case "Cual es el clima? (Warm, Temperate, Cold)":
                 const validWeathers = ['Warm', 'Temperate', 'Cold'];
-                const weatherInput = answer.trim().toUpperCase();
-                const weatherValidated = validWeathers.find(validWeather => validWeather.toUpperCase() === weatherInput);
-                if (!weatherValidated) {
+                let weather = this.capitalizeFirstLetter(answer.trim());
+                if (!validWeathers.includes(weather)) {
                     console.error('Error: Valor de clima no válido');
                     return;
                 }
                 break;
             case "Cual es su genero? (Masculine, Femenine)":
                 const validGenders = ['Masculine', 'Femenine'];
-                const genderInput = answer.trim().toUpperCase();
-                const genderValidated = validGenders.find(validGender => validGender.toUpperCase() === genderInput);
-                if (!genderValidated) {
+                let genero = this.capitalizeFirstLetter(answer.trim());
+                if (!validGenders.includes(genero)) {
                     console.error('Error: Valor de género no válido');
                     return;
                 }
                 break;
             case "Cual es el tipo de evento? (Marriage, Baptism, Stag-party, Quinceanera_party, Graduation, Funeral)":
                 const validEvents = ['Marriage', 'Baptism', 'Stag-party', 'Quinceanera_party', 'Graduation', 'Funeral'];
-                const eventInput = answer.trim().toLowerCase();
-                const eventValidated = validEvents.find(validEvent => validEvent.toLowerCase() === eventInput);
-                if (!eventValidated) {
+                let evento = this.capitalizeFirstLetter(answer.trim());
+                if (!validEvents.includes(evento)) {
                     console.error('Error: Valor de evento no válido');
                     return;
                 }
@@ -158,7 +187,7 @@ class Chatbox {
                 break;
         }
 
-        this.answers[question] = answer.toLowerCase(); 
+        // this.answers[question] = answer.toLowerCase(); 
     }
 
     addMessageToChat(name, message) {
