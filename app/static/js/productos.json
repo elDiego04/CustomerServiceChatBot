@@ -6,7 +6,8 @@
         "imagen": "/static/img/Matrimonio/1.jpeg",
         "categoria": {
             "nombre": "Matrimonio",
-            "id": "matrimonio"
+            "id": "matrimonio",
+            "evento": "Marriage_Adult_Warm_F"
         },
         "precio": 1000
     },

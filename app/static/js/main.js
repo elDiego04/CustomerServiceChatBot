@@ -1,5 +1,5 @@
-let productos = [];
-fetch("./static/js/productos.json")
+ let productos = [];
+ fetch("./static/js/productos.json")
   .then(response => response.json())
   .then(data => {
     productos = data;

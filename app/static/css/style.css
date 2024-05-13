@@ -22,28 +22,25 @@ body {
 /* CHATBOX
 =============== */
 .chatbox {
-    
     position: fixed;
     bottom: 30px;
-    right: 30px; /* Cambia esto según sea necesario */
-    z-index: 999; /* Asegúrate de que el chatbot esté sobre otros elementos */
-    
+    right: 30px;
+    z-index: 999;
 }
 
 /* CONTENT IS CLOSE */
-/* Contenedor del chatbox */
 .chatbox__support {
     display: flex;
     flex-direction: column;
     background: #eee;
-    width: 300px; /* Ancho fijo */
-    height: 350px; /* Altura fija */
+    width: 300px;
+    height: 350px;
     position: fixed;
-    bottom: 20px; /* Ajusta según sea necesario */
-    right: 20px; /* Ajusta según sea necesario */
-    z-index: 999; /* Asegura que esté por encima de otros elementos */
-    overflow: hidden; /* Oculta el contenido que desborda */
-    transition: transform 0.5s ease-in-out; /* Transición suave para la animación */
+    bottom: 20px;
+    right: 20px;
+    z-index: 999;
+    overflow: hidden;
+    transition: transform 0.5s ease-in-out;
     transform: translateY(200%); /* Inicialmente, el chatbox está fuera de la pantalla */
 }
 
@@ -54,10 +51,9 @@ body {
 
 /* CONTENT ISOPEN */
 .chatbox--active {
-    transform: translateY(-55px);
+    transform: translateY(-55px); /* Ajustado para que no se superponga con el botón */
     z-index: 123456;
     opacity: 1;
-
 }
 
 /* BUTTON */
@@ -72,7 +68,6 @@ body {
     outline: none;
     cursor: pointer;
 }
-
 
 /* HEADER */
 .chatbox__header {
@@ -90,9 +85,15 @@ body {
 }
 
 .messages__item {
-    background: orange;
-    max-width: 60.6%;
-    width: fit-content;
+    margin-top: 10px;
+    background: #E0E0E0;
+    padding: 8px 12px;
+    max-width: 70%;
+    word-wrap: break-word; /* This ensures that long URLs or text will wrap within the message container */
+}
+.messages__item img {
+    max-width: 100%; /* Ensures that images don't overflow their container */
+    height: auto; /* Allows images to maintain their aspect ratio */
 }
 
 .messages__item--operator {
@@ -148,6 +149,8 @@ body {
 /* Messages */
 .chatbox__messages {
     padding: 0 20px;
+    overflow-y: auto;
+    max-height: calc(100% - 200px);
 }
 
 .messages__item {
@@ -156,6 +159,7 @@ body {
     padding: 8px 12px;
     max-width: 70%;
 }
+
 
 .messages__item--visitor,
 .messages__item--typing {
@@ -210,13 +214,8 @@ body {
     border-bottom-left-radius: 50px;
     box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.1);
     cursor: pointer;
-    position: fixed; /* Mantenido */
-    bottom: 20px; /* Ajusta según tu diseño */
-    right: 20px; /* Ajusta según tu diseño */
-    z-index: 999; /* Ajusta para que esté por debajo de otros elementos */
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 999;
 }
-
-
-
-
-

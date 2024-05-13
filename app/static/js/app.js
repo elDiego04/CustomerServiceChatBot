@@ -110,17 +110,46 @@ class Chatbox {
                         // Si la respuesta es exitosa, devolver los datos en formato JSON
                         return response.json();
                     })
+                    // Inside the fetch('/predict') callback
                     .then(data => {
-                        // Mostrar la respuesta del bot en el chat
-                        this.addMessageToChat("Bot", data.prediction);
-                        console.log(data.prediction);
-                        // Guardar la respuesta del usuario
-                        this.saveAnswer(userMessage);
-                        // Hacer la siguiente pregunta
-                        //this.askNextQuestion(chatbox);
-
-                        this.userData = {};
-                        this.currentQuestionIndex = 0;
+                        // Load image data from productos.json
+                        fetch('./static/js/productos.json')
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error('Failed to fetch image data.');
+                                }
+                                return response.json();
+                            })
+                            .then(imagenes => {
+                                let matchedImage = imagenes.find(imagen => imagen.categoria.evento === data.prediction);
+                    
+                                if (matchedImage) {
+                                    // Create an image element
+                                    const imageElement = document.createElement('img');
+                                    imageElement.src = matchedImage.imagen;
+                    
+                                    // Add the image to the chat
+                                    this.addMessageToChat("Bot", imageElement);
+                    
+                                    // Save the user's response
+                                    this.saveAnswer(userMessage);
+                    
+                                    // Update the chat display
+                                    this.updateChatText();
+                                } else {
+                                    // If no matching image found, display a message
+                                    this.addMessageToChat("Bot", "No se encontró ninguna imagen para la predicción.");
+                                }
+                    
+                                
+                            })
+                            .catch(error => {
+                                console.error('Error:', error.message);
+                                // Mostrar un mensaje de error en el chat
+                                this.addMessageToChat("Bot", "Lo siento, ocurrió un error al cargar los datos de imagen. Por favor, inténtalo de nuevo.");
+                                this.userData = {};
+                                this.currentQuestionIndex = 0;
+                            });
                     })
                     .catch(error => {
                         console.error('Error:', error.message);
@@ -191,7 +220,11 @@ class Chatbox {
     }
 
     addMessageToChat(name, message) {
-        this.messages.push({ name, message });
+        if (typeof message === 'string') {
+            this.messages.push({ name, message });
+        } else if (message instanceof HTMLImageElement) {
+            this.messages.push({ name, message: message.outerHTML });
+        }
         this.updateChatText();
     }
 
