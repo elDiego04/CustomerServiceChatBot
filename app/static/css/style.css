@@ -93,7 +93,8 @@ body {
 }
 .messages__item img {
     max-width: 100%; /* Ensures that images don't overflow their container */
-    height: auto; /* Allows images to maintain their aspect ratio */
+    max-height: 200px; /* Ajusta este valor según el tamaño deseado */
+    border-radius: 1rem;
 }
 
 .messages__item--operator {

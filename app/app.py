@@ -1,6 +1,5 @@
 from flask import Flask, request, jsonify, render_template
 import joblib
-import pandas as pd
 import numpy as np
 from modeloPredictivo import encoder, scaler
 
@@ -19,24 +18,6 @@ def predict():
         # Convertir las respuestas en un formato adecuado para el modelo
         input_data = prepara_datos_para_modelo(data)
         print("Datos preparados para el modelo:", input_data)
-
-        # Verificar la forma de los datos de entrenamiento
-        # X_train = model.steps[0][1].transformers_[0][1].feature_names_in_
-        # print("Forma de los datos de entrenamiento:", X_train.shape[1])
-
-        # # Verificar la forma de los datos preparados
-        # print("Forma de los datos preparados:", input_data.shape[1])
-
-        # # Realizar la predicción solo si las formas coinciden
-        # if X_train.shape[1] == input_data.shape[1]:
-        # if (True):
-        #     prediction = model.predict(input_data)[0]
-        #     print("Predicción:", prediction)
-        #     return jsonify({'prediction': prediction})
-        # else:
-        #     error_message = "Las formas de los datos no coinciden"
-        #     print("Error:", error_message)
-        #     return jsonify({'error': error_message}), 400
 
         prediction = model.predict(input_data)[0]
         print("Predicción:", prediction)

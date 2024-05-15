@@ -61,10 +61,7 @@ class Chatbox {
             // Agregar el mensaje del usuario al chat
             this.addMessageToChat("User", userMessage);
             textField.value = "";
-    
-            // Si es la primera pregunta, no enviarla al servidor, solo guardar la respuesta
-            // if (this.currentQuestionIndex === 0) {
-                
+      
                 this.saveAnswer(userMessage);
                 if (this.currentQuestionIndex == 1){
                     this.userData.Age = this.capitalizeFirstLetter(userMessage);
@@ -79,7 +76,7 @@ class Chatbox {
 
                 this.askNextQuestion(chatbox);
                 console.log('despues', this.currentQuestionIndex)
-            // }
+            
             
             if (this.currentQuestionIndex - 1 == 4){
                 console.log(this.currentQuestionIndex);

@@ -24,8 +24,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.4, random_
 # Especificamos drop='first' para eliminar la primera columna dummy de cada variable categórica para evitar la multicolinealidad.
 categorical_cols = ['Age','Weather','Event']
 encoder = OneHotEncoder()
-print("encoder")
-print(encoder)
+
 X_train_encoded = encoder.fit_transform(X_train[categorical_cols])
 X_test_encoded = encoder.transform(X_test[categorical_cols])
 
@@ -35,21 +34,17 @@ X_test_encoded = np.hstack((X_test_encoded.toarray(), X_test.drop(categorical_co
 
 # Paso 4: Normalización de los datos
 scaler = StandardScaler()
-print("scaler")
-print(scaler)
 X_train_scaled = scaler.fit_transform(X_train_encoded)
 X_test_scaled = scaler.transform(X_test_encoded)
 
 # Paso 5: Entrenamiento del modelo
-print("Hola0")
 sakuraModel = RandomForestClassifier(n_estimators=100, random_state=99)
-print("Hola1")
 sakuraModel.fit(X_train_scaled, y_train)
-print("Hola2")
+
 # Paso 6: Realización de una predicción con nuevos datos
 # Supongamos que tenemos un nuevo vector de datos para predecir la salida
 new_data = pd.DataFrame({'Age': ['Adult'], 'Weather': ['Cold'], 'Sex_gender': ['F'], 'Event': ['Marriage'] })
-print("Hola3")
+
 # Convertir la columna 'Sex' a valores numéricos
 new_data['Sex_gender'] = new_data['Sex_gender'].map({'F': 0, 'M': 1})
 print(new_data)
@@ -67,6 +62,5 @@ new_data_scaled = scaler.transform(new_data_encoded)
 prediction = sakuraModel.predict(new_data_scaled)
 print("Predicción:", prediction)
 
-print("Hola4")
+
 joblib.dump(sakuraModel, 'modeloPredictivo.pkl')
-print("Hola5")

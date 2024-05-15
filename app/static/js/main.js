@@ -43,7 +43,7 @@
             const productosBoton = productos.filter(producto => producto.categoria.id === e.currentTarget.id);
             cargarProductos(productosBoton);
           } else {
-            console.error('No products found for the category:', e.currentTarget.id);
+            console.error('Productos no encontrados para la categoría:', e.currentTarget.id);
           }
         } else {
           tituloPrincipal.innerText = "Todos los productos";
