@@ -10,10 +10,10 @@ class Chatbox {
         this.state = false;
         this.messages = [];
         this.questions = [
-            "Cual es su edad? (Adult, Elderly, Teenager)",
-            "Cual es el clima? (Warm, Temperate, Cold)",
-            "Cual es su genero? (Masculine, Femenine)",
-            "Cual es el tipo de evento? (Marriage, Baptism, Stag-party, Quinceanera_party, Graduation, Funeral)"
+            "Cual es su rango de edad? (Adulto, Anciano, Adolescente)",
+            "Cual es el clima? (Calido, Templado, Frio)",
+            "Cual es su genero? (Masculino, Femenino)",
+            "Cual es el tipo de evento? (Matrimonio, Bautizo, Despedida_soltero, Quinceañera, Graduacion, Funeral)"
         ];
         this.currentQuestionIndex = 0;
         this.answers = {};
@@ -45,7 +45,9 @@ class Chatbox {
         if (this.state) {
             chatbox.classList.add('chatbox--active');
             // Saludar y preguntar si está listo para comenzar
-            this.addMessageToChat("Bot", "¡Hola! ¿Estás listo para comenzar? (responde sí o no)");
+            this.addMessageToChat("Bot", "¡Hola! Bienvenido a Sakura Stylish");
+            this.addMessageToChat("Bot", "¿Estás listo para encontrar tu prenda perfecta? (responde si o no)");
+
         } else {
             chatbox.classList.remove('chatbox--active');
         }
@@ -178,32 +180,32 @@ class Chatbox {
 
         // Validar las respuestas para cada pregunta
         switch(question) {
-            case "Cual es su edad? (Adult, Elderly, Teenager)":
-                const validAges = ['Adult', 'Elderly', 'Teenager'];
+            case "Cual es su edad? (Adulto, Anciano, Adolescente)":
+                const validAges = ['Adulto', 'Anciano', 'Adolescente'];
                 let age = this.capitalizeFirstLetter(answer.trim());
                 if (!validAges.includes(age)) {
                     console.error('Error: Valor de edad no válido');
                     return;
                 }
                 break;
-            case "Cual es el clima? (Warm, Temperate, Cold)":
-                const validWeathers = ['Warm', 'Temperate', 'Cold'];
+            case "Cual es el clima? (Calido, Templado, Frio)":
+                const validWeathers = ['Calido', 'Templado', 'Frio'];
                 let weather = this.capitalizeFirstLetter(answer.trim());
                 if (!validWeathers.includes(weather)) {
                     console.error('Error: Valor de clima no válido');
                     return;
                 }
                 break;
-            case "Cual es su genero? (Masculine, Femenine)":
-                const validGenders = ['Masculine', 'Femenine'];
+            case "Cual es su genero? (Masculino, Femenino)":
+                const validGenders = ['Masculino', 'Femenino'];
                 let genero = this.capitalizeFirstLetter(answer.trim());
                 if (!validGenders.includes(genero)) {
                     console.error('Error: Valor de género no válido');
                     return;
                 }
                 break;
-            case "Cual es el tipo de evento? (Marriage, Baptism, Stag-party, Quinceanera_party, Graduation, Funeral)":
-                const validEvents = ['Marriage', 'Baptism', 'Stag-party', 'Quinceanera_party', 'Graduation', 'Funeral'];
+            case "Cual es el tipo de evento? (Matrimonio, Bautizo, Despedida_soltero, Quinceañera, Graduacion, Funeral)":
+                const validEvents = ['Matrimonio', 'Bautizo', 'Despedida_soltero', 'Quinceañera', 'Graduacion', 'Funeral'];
                 let evento = this.capitalizeFirstLetter(answer.trim());
                 if (!validEvents.includes(evento)) {
                     console.error('Error: Valor de evento no válido');

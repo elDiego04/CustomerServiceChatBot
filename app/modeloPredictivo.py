@@ -13,7 +13,7 @@ df = df.drop(['Size', 'Time', 'Shirts', 'Trousers', 'Shoes', 'Satisfaction'], ax
 print(df)
 
 # Convertir la columna 'Sex' a valores numéricos (0 para 'female' y 1 para 'male')
-df['Sex_gender'] = df['Sex_gender'].map({'Femenine': 0, 'Masculine': 1})
+df['Sex_gender'] = df['Sex_gender'].map({'Femenino': 0, 'Masculino': 1})
 
 X = df.drop('Type_Clothing_Event', axis=1)
 y = df['Type_Clothing_Event']
@@ -43,10 +43,10 @@ sakuraModel.fit(X_train_scaled, y_train)
 
 # Paso 6: Realización de una predicción con nuevos datos
 # Supongamos que tenemos un nuevo vector de datos para predecir la salida
-new_data = pd.DataFrame({'Age': ['Adult'], 'Weather': ['Cold'], 'Sex_gender': ['Femenine'], 'Event': ['Marriage'] })
+new_data = pd.DataFrame({'Age': ['Adulto'], 'Weather': ['Frio'], 'Sex_gender': ['Femenino'], 'Event': ['Matrimonio'] })
 
 # Convertir la columna 'Sex' a valores numéricos
-new_data['Sex_gender'] = new_data['Sex_gender'].map({'Femenine': 0, 'Masculine': 1})
+new_data['Sex_gender'] = new_data['Sex_gender'].map({'Femenino': 0, 'Masculino': 1})
 print(new_data)
 
 # CodiFemenineicar la columna 'Embarked' utilizando el mismo encoder
