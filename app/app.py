@@ -40,10 +40,10 @@ def prepara_datos_para_modelo(data):
         raise ValueError("No se permiten valores vacíos en los datos")
 
     # Convertir la columna 'Sex' a valores numéricos
-    sex_gender = data['Sex_gender'].upper()  # Convertir a mayusculas
-    sex_mapping = {'F': 0, 'M': 1}
+    sex_gender = data['Sex_gender'].capitalize()  # Convertir a mayusculas
+    sex_mapping = {'Femenine': 0, 'Masculine': 1}
     if sex_gender not in sex_mapping:
-        raise ValueError("Valor de género no válido. Debe ser 'f' o 'm'.")
+        raise ValueError("Valor de género no válido. Debe ser 'Femenine' o 'Masculine'.")
     sex_numeric = sex_mapping[sex_gender]
 
     # Codificar las columnas categóricas utilizando el mismo encoder

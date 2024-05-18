@@ -70,7 +70,7 @@ class Chatbox {
                     this.userData.Weather = this.capitalizeFirstLetter(userMessage);
                 }
                 if (this.currentQuestionIndex == 3){
-                    this.userData.Sex_gender = this.capitalizeFirstLetter(userMessage) == 'Masculine' ? 'M' : 'F';
+                    this.userData.Sex_gender = this.capitalizeFirstLetter(userMessage);
                 }
     
 
@@ -119,7 +119,8 @@ class Chatbox {
                             })
                             .then(imagenes => {
                                 let matchedImage = imagenes.find(imagen => imagen.categoria.evento === data.prediction);
-                    
+                                console.log(data.prediction);
+
                                 if (matchedImage) {
                                     // Create an image element
                                     const imageElement = document.createElement('img');
@@ -212,8 +213,6 @@ class Chatbox {
             default:
                 break;
         }
-
-        // this.answers[question] = answer.toLowerCase(); 
     }
 
     addMessageToChat(name, message) {
