@@ -5,7 +5,11 @@ from sklearn.ensemble import RandomForestClassifier
 import numpy as np
 import joblib
 
-df = pd.read_csv("SakuraStylishDB.csv", delimiter=";")
+
+file_path = r"C:\Users\57305\OneDrive\Documentos\ExpertSystems\CustomerServiceChatBot\SakuraStylishDB.csv"
+
+# Read the CSV file
+df = pd.read_csv(file_path, delimiter=";")
 print(df)
 
 # Eliminar columnas irrelevantes o con muchos valores faltantes

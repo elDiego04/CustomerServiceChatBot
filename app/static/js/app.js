@@ -138,7 +138,7 @@ class Chatbox {
                                     this.updateChatText();
                                 } else {
                                     // If no matching image found, display a message
-                                    this.addMessageToChat("Bot", "No se encontró ninguna imagen para la predicción.");
+                                    this.addMessageToChat("Bot", "Producto no disponible.");
                                 }
                     
                                 
